@@ -1,0 +1,8 @@
+{
+  "navigationStyle": "custom",
+  "navigationBarTextStyle": "white",
+  "navigationBarTitleText": "uni-app",
+  "usingComponents": {
+    "navbar": "/components/navbar/navbar"
+  }
+}

@@ -4,6 +4,7 @@
 			"path": "pages/tabbar/index/index",
 			"style": {
 				"navigationStyle":"custom",
+				"navigationBarTextStyle":"white",
 				"navigationBarTitleText": "uni-app"
 			}
 		}

@@ -2,7 +2,7 @@
 	<view class="content">
 		<!-- 自定义组件 -->
 		<navbar></navbar>
-		<view class="content" v-for="item in 100">
+		<view  v-for="item in 100">
 			{{item}}
 		</view>
 	</view>
@@ -30,10 +30,6 @@
 </script>
 
 <style lang="scss">
-	.navbar{
-		width: 100%;
-		height: 45px;
-		background-color:$mk-base-color ;
-	}
+	
 </style>
  
