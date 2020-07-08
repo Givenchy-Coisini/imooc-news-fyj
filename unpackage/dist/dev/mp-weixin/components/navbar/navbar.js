@@ -76,7 +76,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "recyclableRender", function() { return recyclableRender; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "components", function() { return components; });
-var components
+var components = {
+  uniIcons: function() {
+    return Promise.all(/*! import() | components/uni-icons/uni-icons */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/uni-icons/uni-icons")]).then(__webpack_require__.bind(null, /*! @/components/uni-icons/uni-icons.vue */ 38))
+  }
+}
 var render = function() {
   var _vm = this
   var _h = _vm.$createElement
@@ -149,7 +153,7 @@ var _default =
   },
   created: function created() {
     //获取手机系统信息
-    var info = uni.getSystemInfo();
+    var info = uni.getSystemInfoSync();
     //设置状态栏高度
     this.statusBarHeight = info.statusBarHeight;
     console.log(info);
@@ -162,6 +166,7 @@ var _default =
     //(胶囊底部高度-状态栏高度)+(胶囊顶部高度-状态栏的高度)=导航栏的高度
     this.navbarHeight = menuButtonInfo.bottom - info.statusBarHeight + (
     menuButtonInfo.top - info.statusBarHeight);
+    console.log(this.navbarHeight);
     this.windowWidth = menuButtonInfo.left;
 
   } };exports.default = _default;

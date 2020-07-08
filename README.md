@@ -708,3 +708,6 @@ unicloud是Dcloud公司联合腾讯云、阿里云开发的基于serverless模�
     </style>
 
 
+## 插件市场中的字体图标
+[插件市场地址](https://ext.dcloud.net.cn/)
+
