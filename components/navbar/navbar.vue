@@ -36,7 +36,6 @@
 			const info = uni.getSystemInfoSync()
 			//设置状态栏高度
 			this.statusBarHeight = info.statusBarHeight
-			console.log(info)
 			this.windowWidth = info.windowWidth
 			//获取胶囊的位置
 

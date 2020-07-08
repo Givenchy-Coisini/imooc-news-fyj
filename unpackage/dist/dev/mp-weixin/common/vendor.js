@@ -7961,6 +7961,55 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = { "appid": "__UNI__2C64E30" };exports.default = _default;
 
+/***/ }),
+
+/***/ 57:
+/*!********************************************************!*\
+  !*** E:/uniapp项目代码/imooc-news-fyj/common/api/index.js ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _list = __webpack_require__(/*! ./list.js */ 58);var _default =
+
+{
+  get_label: _list.get_label,
+  get_list: _list.get_list };exports.default = _default;
+
+/***/ }),
+
+/***/ 58:
+/*!*******************************************************!*\
+  !*** E:/uniapp项目代码/imooc-news-fyj/common/api/list.js ***!
+  \*******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uniCloud) {Object.defineProperty(exports, "__esModule", { value: true });exports.get_list = exports.get_label = void 0;var get_label = function get_label(data) {
+  return new Promise(function (reslove, reject) {
+    uniCloud.callFunction({
+      name: 'get_label',
+      data: data }).
+    then(function (res) {//回调的方式，或者promise的方式
+      if (res.result.code === 200) {
+        reslove(res.result);
+      } else {
+        reject(res.result);
+      }
+    }).catch(function (err) {
+      reject(err);
+    });
+  });
+};exports.get_label = get_label;
+var get_list = function get_list(data) {
+  return new Promise(function (reslove, reject) {
+    reslove({ data: '请求成功' });
+  });
+};exports.get_list = get_list;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/uni-cloud/dist/index.js */ 55)["default"]))
+
 /***/ })
 
 }]);
