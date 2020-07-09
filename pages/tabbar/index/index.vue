@@ -36,7 +36,6 @@
 				data,
 				index
 			}) { //传过来是一个对象
-				console.log(data, index)
 				this.activeIndex=index//tab组件传过来的index传给list组件
 			},
 			getLabel() {
@@ -46,6 +45,9 @@
 					const {
 						data
 					} = res //里面没有result了 只有data
+					data.unshift({
+						name:'全部'
+					})
 					this.tabList = data
 				})
 			}
