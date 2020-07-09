@@ -6,7 +6,8 @@
 	})
 }
  export const get_list = (data) => {
-	return new Promise((reslove, reject) => {
-		reslove({data:'请求成功'})
+	return $http({
+		url:'get_list',
+		data
 	})
 }

@@ -1,8 +1,8 @@
 <template>
-	<swiper  :current="activeIndex" class="home-swiper" @change="change">
+	<swiper :current="activeIndex" class="home-swiper" @change="change">
 		<!-- @change事件 监听滑动-->
 		<swiper-item v-for="(item,index) in tab" :key="index" class="swiper-item">
-			<list-item></list-item>
+			<list-item :list="list"></list-item>
 			<!--有几个tab就有几个  list-item -->
 		</swiper-item>
 	</swiper>
@@ -22,19 +22,34 @@
 				}
 			},
 			activeIndex: {
-				type:Number,
-				default:0
+				type: Number,
+				default: 0
 			}
 		},
 		data() {
 			return {
-
+				list: []
 			};
 		},
-		methods:{
+
+		//onLoad只能在页面中写  组件中用的是created 组件中是不能用onLoad的
+		created() {
+			this.getList()
+		},
+		methods: {
 			change(e) {
-				const {current} =e.detail
-				this.$emit('change',current)
+				const {
+					current
+				} = e.detail
+				this.$emit('change', current)
+			},
+			getList() {
+				this.$api.get_list({
+					name: 'get_list'
+				}).then(res => {
+					const {data} = res
+					this.list=data
+				})
 			}
 		}
 	}

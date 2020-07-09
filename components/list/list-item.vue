@@ -1,11 +1,6 @@
 <template>
 	<list-scroll class="list-scroll">
-	<list-card mode="base"></list-card>
-	<list-card mode="image"></list-card>
-	<list-card mode="column"></list-card>
-	<list-card mode="base"></list-card>
-	<list-card mode="image"></list-card>
-	<list-card mode="column"></list-card>
+	<list-card  :item="item" v-for="(item,index) in list" :key="item._id"></list-card>
 	</list-scroll>
 </template>
 
@@ -14,6 +9,14 @@
 		data(){
 			return{
 				
+			}
+		},
+		props:{
+			list:{
+				type:Array,
+				default(){
+					return []
+				}
 			}
 		}
 	}
