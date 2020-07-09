@@ -12,7 +12,7 @@
 				<view class="list-card__des">
 					<view class="list-card-content_des-label">
 						<view class="list-card-content_des-label-item">
-							前端
+							前端开发
 						</view>
 					</view>
 					<view class="list-card-content_des-brower">
@@ -35,7 +35,7 @@
 				<view class="list-card__des">
 					<view class="list-card-content_des-label">
 						<view class="list-card-content_des-label-item">
-							前端
+							后端开发
 						</view>
 					</view>
 					<view class="list-card-content_des-brower">
@@ -57,7 +57,7 @@
 				<view class="list-card__des">
 					<view class="list-card-content_des-label">
 						<view class="list-card-content_des-label-item">
-							前端
+							UI设计
 						</view>
 					</view>
 					<view class="list-card-content_des-brower">

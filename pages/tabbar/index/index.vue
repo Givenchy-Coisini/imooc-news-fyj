@@ -3,13 +3,11 @@
 		<!-- 自定义导航栏 -->
 		<navbar></navbar>
 		<!--自定义选项卡-->
-		<tab :list="tabList" @tab="tab"></tab>
-		
-		<list-scroll>
-			<list-card mode="base"></list-card>
-			<list-card mode="image"></list-card>
-			<list-card mode="column"></list-card>
-		</list-scroll>
+		<tab :list="tabList" @tab="tab" :tabIndex="tabIndex"></tab>
+		<view class="home-list">
+			<list :tab="tabList" @change="change" :activeIndex="activeIndex"></list>
+			<!-- :tab是要传过去的值，tablist是data中的值 -->
+		</view>
 	</view>
 </template>
 
@@ -22,18 +20,24 @@
 		// },
 		data() {
 			return {
-				tabList: []
+				tabList: [],
+				tabIndex: 0,
+				activeIndex:0
 			}
 		},
 		onLoad() {
 			this.getLabel()
 		},
 		methods: {
+			change(current) {
+				this.tabIndex = current//list组件传过来的current 传给tab组件
+			},
 			tab({
 				data,
 				index
 			}) { //传过来是一个对象
 				console.log(data, index)
+				this.activeIndex=index//tab组件传过来的index传给list组件
 			},
 			getLabel() {
 				this.$api.get_label({
@@ -50,14 +54,20 @@
 </script>
 
 <style lang="scss">
-page{
-	height: 100%;
-	display: flex;
-}
-.home{
-	display: flex;
-	flex-direction: column;
-	flex:1;
-	overflow: hidden;
-}
+	page {
+		height: 100%;
+		display: flex;
+	}
+
+	.home {
+		display: flex;
+		flex-direction: column;
+		flex: 1;
+		overflow: hidden;
+
+		.home-list {
+			flex: 1;
+			box-sizing: border-box;
+		}
+	}
 </style>

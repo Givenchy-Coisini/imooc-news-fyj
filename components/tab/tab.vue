@@ -2,7 +2,8 @@
 	<view class="tab">
 		<scroll-view class="tab_scroll" scroll-x="true">
 			<view class="tab_scroll_box">
-				<view v-for="(item,index) in list" :key="index" class="tab_scroll_item" :class="{active:activeIndex===index}" @click="clicktab(item,index)">
+				<view v-for="(item,index) in list" :key="index" class="tab_scroll_item" :class="{active:activeIndex===index}"
+				 @click="clicktab(item,index)">
 					{{item.name}}
 				</view>
 			</view>
@@ -16,25 +17,36 @@
 
 <script>
 	export default {
-		props:{
-			list:{
-				type:Array,
-				default(){
-					return[]
+		props: {
+			list: {
+				type: Array,
+				default () {
+					return []
 				}
+			},
+			tabIndex: {
+				type: Number,
+				default: 0
+			}
+		},
+
+		watch: {
+			//可以监听data中或者props中的值的变化
+			tabIndex(newVal) {//newVal是新值，而oldVal是旧值，旧值用不到
+				this.activeIndex=newVal//将这个值赋给activeindex  从0变成了1 那么1就变红了
 			}
 		},
 		data() {
 			return {
-				activeIndex:0
+				activeIndex: 0
 			};
 		},
-		methods:{
-			clicktab(item,index){
-				this.activeIndex=index
-				this.$emit('tab',{
-					data:item,
-					index:index
+		methods: {
+			clicktab(item, index) {
+				this.activeIndex = index
+				this.$emit('tab', {
+					data: item,
+					index: index
 				})
 			}
 		}
@@ -58,7 +70,7 @@
 				display: flex;
 				align-items: center;
 				height: 45px;
-				flex-wrap: nowrap;//控制tab_scroll_item的内容是否换行
+				flex-wrap: nowrap; //控制tab_scroll_item的内容是否换行
 				box-sizing: border-box;
 
 				.tab_scroll_item {
@@ -66,7 +78,8 @@
 					padding: 0 10px;
 					color: #333;
 					font-size: 14px;
-					&.active{
+
+					&.active {
 						color: $mk-base-color;
 					}
 				}
@@ -79,12 +92,13 @@
 			justify-content: center;
 			align-items: center;
 			width: 45px;
-			&::after{
+
+			&::after {
 				content: '';
 				position: absolute;
-				top:12px;
+				top: 12px;
 				bottom: 12px;
-				left:0;
+				left: 0;
 				width: 1px;
 				background-color: #ddd;
 			}
