@@ -1,6 +1,7 @@
-import {get_label,get_list} from './list.js'
+import {get_label,get_list,update_like} from './list.js'
 
 export default{
 	get_label,
-	get_list
+	get_list,
+	update_like
 }

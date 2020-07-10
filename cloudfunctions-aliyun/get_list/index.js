@@ -1,9 +1,10 @@
 'use strict';
 const db = uniCloud.database() //获取数据库的引用
+const $ =db.command.aggregate
 exports.main = async (event, context) => {
 	//接受分类通过分类去筛选数据
 	const {
-		name,page=1,pageSize=10
+		user_id,name,page=1,pageSize=10
 	} = event //解构赋值
 	let matchObj = {}
 	if (name !== '全部') {
@@ -11,12 +12,17 @@ exports.main = async (event, context) => {
 			classify: name
 		}
 	}
+	const userinfo= await db.collection('user').doc(user_id).get()
+	const article_likes_ids=userinfo.data[0].article_likes_ids
 	//聚合方式   更精细化的去进行处理数据，求和。分组，指定返回哪些操作
-	const list = await db.collection('article').aggregate().match( //agg获取聚合操作的实例
+	const list = await db.collection('article').aggregate().addFields({
+		is_like:$.in(['$_id',article_likes_ids])})
+		.match( //agg获取聚合操作的实例
 			matchObj //match根据条件过滤文档
 		)
 		.project({ //把指定的字段传递给下一个流水线
-			content: false //不去传递
+			content: false, //不去传递
+		
 		})
 		//要跳过多少数据
 		.skip(pageSize*(page-1))
