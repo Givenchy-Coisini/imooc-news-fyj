@@ -22,7 +22,7 @@
 			return {
 				tabList: [],
 				tabIndex: 0,
-				activeIndex:0
+				activeIndex: 0
 			}
 		},
 		onLoad() {
@@ -30,13 +30,14 @@
 		},
 		methods: {
 			change(current) {
-				this.tabIndex = current//list组件传过来的current 传给tab组件
+				this.tabIndex = current //list组件传过来的current 传给tab组件
+				this.activeIndex = current
 			},
 			tab({
 				data,
 				index
 			}) { //传过来是一个对象
-				this.activeIndex=index//tab组件传过来的index传给list组件
+				this.activeIndex = index //tab组件传过来的index传给list组件
 			},
 			getLabel() {
 				this.$api.get_label({
@@ -46,7 +47,7 @@
 						data
 					} = res //里面没有result了 只有data
 					data.unshift({
-						name:'全部'
+						name: '全部'
 					})
 					this.tabList = data
 				})

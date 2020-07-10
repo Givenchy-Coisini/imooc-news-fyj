@@ -3,7 +3,7 @@ const db = uniCloud.database() //获取数据库的引用
 exports.main = async (event, context) => {
 	//接受分类通过分类去筛选数据
 	const {
-		name
+		name,page=1,pageSize=10
 	} = event //解构赋值
 	let matchObj = {}
 	if (name !== '全部') {
@@ -17,7 +17,11 @@ exports.main = async (event, context) => {
 		)
 		.project({ //把指定的字段传递给下一个流水线
 			content: false //不去传递
-		}).end()
+		})
+		//要跳过多少数据
+		.skip(pageSize*(page-1))
+		.limit(pageSize)
+		.end()
 
 	// let list = await db.collection('article').field({//指定一个字段 content为false不返回  true表示只返回这个字段
 	// 	content:false
