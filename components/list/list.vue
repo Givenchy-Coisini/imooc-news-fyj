@@ -38,6 +38,8 @@
 		watch: {
 			tab(newVal) { //监听tab
 				if (newVal.length === 0) return
+				this.listCatchData={}
+				this.load={}
 				this.getList(this.activeIndex)
 			}
 		},

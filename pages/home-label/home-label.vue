@@ -9,11 +9,15 @@
 					{{isEdit?'完成':'编辑'}}
 				</view>
 			</view>
-			<view class="label-content">
+			<uni-load-more v-if="loading" iconType="snow" status="loading"></uni-load-more>
+			<view v-if="!loading" class="label-content">
 				<view v-for="(item,index) in labelList" :key="item._id" class="label-content-item">
 					{{item.name}}
 					<uni-icons @click="close(index)" v-if="isEdit" class="icons-close" type="clear" size="20" color="red"></uni-icons>
 				</view>
+			</view>
+			<view v-if="labelList.length===0&&!loading" class="no-data">
+				当前没有数据
 			</view>
 		</view>
 		<!-- 推荐标签 -->
@@ -23,10 +27,14 @@
 					标签推荐
 				</view>
 			</view>
-			<view class="label-content">
+			<uni-load-more v-if="loading" iconType="snow" status="loading"></uni-load-more>
+			<view v-if="!loading" class="label-content">
 				<view v-for="(item,index) in list" :key="item._id" class="label-content-item" @click="add(index)">
 					{{item.name}}
 				</view>
+			</view>
+			<view v-if="list.length===0&&!loading" class="no-data">
+				当前没有数据
 			</view>
 		</view>
 	</view>
@@ -38,17 +46,46 @@
 			return {
 				isEdit: false,
 				labelList: [],
-				list: []
+				list: [],
+				loading: true
 			}
 		},
 		onLoad() {
+			//自定义事件
+			// /this.$emit()->uni.$emit()
+			//自定义事件只能 在打开的页面触发  
 			this.getLabel()
 		},
 		methods: {
 			edit() {
-				this.isEdit = !this.isEdit
+
+				if (this.isEdit) {
+					this.isEdit = false
+					this.setUpdateLabel(this.labelList)
+				} else {
+					this.isEdit = true
+				}
+			},
+			setUpdateLabel(label) {
+				let newArrayIds = []
+				label.forEach(item => {
+					newArrayIds.push(item._id)
+				})
+				uni.showLoading()
+				console.log(newArrayIds)
+				this.$api.update_label({
+					label: newArrayIds
+				}).then(res => {
+					uni.hideLoading()
+					uni.showToast({
+						title: '更新成功',
+						icon: 'none'
+					})
+					uni.$emit('labelChange')
+				})
 			},
 			getLabel() {
+				this.loading = true
 				this.$api.get_label({
 					type: 'all'
 				}).then((res) => {
@@ -57,17 +94,18 @@
 					} = res
 					this.labelList = data.filter(item => item.current) //遍历来过滤，只显示current为true的数据
 					this.list = data.filter(item => !item.current)
+					this.loading = false
 					console.log(res)
 				})
 			},
 			add(index) {
-				if(!this.isEdit) return
+				if (!this.isEdit) return
 				this.labelList.push(this.list[index])
-				this.list.splice(index,1)
+				this.list.splice(index, 1)
 			},
 			close(index) {
 				this.list.push(this.labelList[index])
-				this.labelList.splice(index,1)
+				this.labelList.splice(index, 1)
 			}
 		}
 	}
@@ -124,5 +162,13 @@
 				}
 			}
 		}
+	}
+
+	.no-data {
+		text-align: center;
+		padding: 50px 0;
+		color: #999;
+		font-size: 14px;
+		width: 100%;
 	}
 </style>
