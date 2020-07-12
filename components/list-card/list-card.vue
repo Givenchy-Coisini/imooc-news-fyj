@@ -90,7 +90,9 @@
 		methods:{
 			open(){
 				this.$emit('click',this.item)
-				console.log('打开详情页面')
+				uni.navigateTo({//点击列表项的时候会跳转到详情页面
+					url:'/pages/home-detail/home-detail'
+				})
 			}
 		}
 	}

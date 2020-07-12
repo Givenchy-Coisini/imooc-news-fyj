@@ -30,6 +30,10 @@
 				"navigationBarTitleText": "标签管理"
 			}
         }
+        ,{
+            "path" : "pages/home-detail/home-detail",
+            "style" : {}
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
