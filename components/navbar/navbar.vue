@@ -5,8 +5,8 @@
 			<view :style="{height: statusBarHeight+'px'}"> </view>
 			<!-- 导航栏 -->
 			<view class="navbar_context" :style="{height:navbarHeight+'px',width:windowWidth+'px'}" @click.stop="open" :class="{search:isSearch}">
-				<view class="navbar_content_search_icons">
-					<uni-icons type="back" size="22" color="#fff" ></uni-icons>
+				<view  v-if="isSearch" class="navbar_content_search_icons" @click="bick">
+					<uni-icons type="back" size="22" color="#fff"></uni-icons>
 				</view>
 				<view v-if="!isSearch" class="navbar-search">
 					<view class="navbar-search_iocn">
@@ -16,9 +16,11 @@
 						uniapp、vue
 					</view>
 				</view>
-				<view  v-else class="navbar-search">
+				<view v-else class="navbar-search">
 					<!-- 搜索页面显示 -->
-					<input class="navbar-search_text" type="text" value="" placeholder="请输入您要搜索的内容"/>
+					<input class="navbar-search_text" type="text" v-bind:value="val" placeholder="请输入您要搜索的内容" @input="inputChange" />
+					<!-- 	 <input class="navbar-search_text" type="text" v-model="val"
+					  placeholder="请输入您要搜索的内容" />{{val}} -->
 				</view>
 			</view>
 
@@ -35,14 +37,24 @@
 			isSearch: { //判断这个组件是在搜索页还是在首页
 				type: Boolean,
 				default: false
+			},
+			value:{
+				type:[String,Number],
+				default:''
 			}
 		},
 		data() {
 			return {
 				statusBarHeight: 20,
-				navbarHeight: 45, 
-				windowWidth: 375
+				navbarHeight: 45,
+				windowWidth: 375,
+				val: ''
 			};
+		},
+		watch:{
+			value(newVal){
+				this.val=newVal
+			}
 		},
 		created() {
 			//获取手机系统信息
@@ -64,9 +76,24 @@
 		},
 		methods: {
 			open() {
-				if(this.isSearch) return 
+				if (this.isSearch) return
 				uni.navigateTo({
 					url: '/pages/home-search/home-search'
+				})
+			},
+			inputChange(e) {
+				const {
+					value
+				} = e.detail
+				//input 是子组件中的input
+				this.$emit('input', value)
+			},
+			bick(){
+				// uni.navigateBack({
+				
+				// })
+				uni.switchTab({
+					url:'/pages/tabbar/index/index'
 				})
 			}
 		}
@@ -109,6 +136,7 @@
 					}
 
 					.navbar-search_text {
+						width: 100%;
 						font-size: 14px;
 						color: #999;
 					}
@@ -116,6 +144,7 @@
 
 				&.search {
 					padding-left: 0;
+
 					.navbar_content_search_icons {
 						margin-left: 10px;
 						margin-right: 10px;
