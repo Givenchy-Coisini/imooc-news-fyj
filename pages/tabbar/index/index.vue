@@ -40,9 +40,7 @@
 				this.activeIndex = index //tab组件传过来的index传给list组件
 			},
 			getLabel() {
-				this.$api.get_label({
-					name: 'get_label',
-				}).then(res => {
+				this.$api.get_label().then(res => {
 					const {
 						data
 					} = res //里面没有result了 只有data

@@ -9,7 +9,7 @@
 			</view>
 		</scroll-view>
 		<!-- 图标不能滚动所以在scroll-view之外写 -->
-		<view class="tab_icons">
+		<view class="tab_icons"  @click="openCollect">
 			<uni-icons type="gear" size="26" color="#666"></uni-icons>
 		</view>
 	</view>
@@ -32,8 +32,8 @@
 
 		watch: {
 			//可以监听data中或者props中的值的变化
-			tabIndex(newVal) {//newVal是新值，而oldVal是旧值，旧值用不到
-				this.activeIndex=newVal//将这个值赋给activeindex  从0变成了1 那么1就变红了
+			tabIndex(newVal) { //newVal是新值，而oldVal是旧值，旧值用不到
+				this.activeIndex = newVal //将这个值赋给activeindex  从0变成了1 那么1就变红了
 			}
 		},
 		data() {
@@ -47,6 +47,11 @@
 				this.$emit('tab', {
 					data: item,
 					index: index
+				})
+			},
+			openCollect() {
+				uni.navigateTo({
+					url: '/pages/home-label/home-label'
 				})
 			}
 		}
