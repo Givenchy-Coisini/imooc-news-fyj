@@ -27,7 +27,7 @@
 					最新评论
 				</view>
 				<view class="comment-content" v-for="item in commentsList" :key="item.comment_id"	>
-					<comments-box :comment="item"></comments-box>
+					<comments-box :comments="item" @reply="reply"></comments-box>
 				</view>
 			</view>
 		</view>
@@ -86,7 +86,8 @@
 				noData: '<p style="text-align:center;color:#666">详情加载中...</p>',
 				//输入框的值
 				comentsValue:'',
-				commentsList:[]
+				commentsList:[],
+				replyFormData:{}
 			}
 		},
 		methods: {
@@ -95,6 +96,12 @@
 			},
 			closeComent(){
 				this.$refs.popup.close()
+			},
+			reply(e){
+				this.replyFormData={
+					"comment_id":e.comment_id
+				}
+				this.openComents()
 			},
 			submit(){
 				console.log('发布');
@@ -105,20 +112,24 @@
 					})
 					return
 				}
-				this.setUpdateComment(this.comentsValue)
+				this.setUpdateComment({content:this.comentsValue,...this.replyFormData})
 			},
 			setUpdateComment(content){//发布评论
+			const formdata={
+				article_id:this.formData._id,
+				...content
+			}
+			// console.log(formdata)
+			// return
 			uni.showLoading()
-				this.$api.update_coments({
-					article_id:this.formData._id,
-					content
-				}).then(res=>{
+				this.$api.update_coments(formdata).then(res=>{
 					console.log(res)
 					uni.hideLoading()
 					uni.showToast({
 						title:'评论发布成功',
 						icon:'none'
 					})
+					this.getComments()
 					this.closeComent()
 				})
 			},
@@ -130,6 +141,7 @@
 						data
 					} = res
 					this.formData = data
+					
 					console.log(res)
 				})
 			},
