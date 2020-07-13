@@ -1,28 +1,30 @@
 <template>
 	<view class="detail">
 		<view class="detail-title">
-			我是前端开发者，我要不要学习nodejs开发
+			{{formData.title}}
 		</view>
 		<view class="detail-header">
 			<view class="detail-header_logo">
-				<image src="../../static/logo.png" mode="aspectFill"></image>
+				<image :src="formData.author.avatar" mode="aspectFill"></image>
 			</view>
 			<view class="detail-header_content">
 				<view class="detail-header_content_title">
-					me号天
+					{{formData.author.author_name}}
 				</view>
 				<view class="detail-header_content_info">
-					<text>2020-03-21 12:21:21</text>
-					<text>123浏览</text>
-					<text>345关注</text>
+					<text>{{formData.create_time}}</text>
+					<text>{{formData.browse_count}}浏览</text>
+					<text>{{formData.thumbs_up_count}}点赞</text>
 				</view>
 			</view>
 		</view>
 		<view class="detail_content">
-			详情数据
+			<view class="detail-html">
+				<u-parse :content="formData.content" :noData="noData"></u-parse>
+			</view>
 		</view>
 		<view class="detail-bottom">
-			<view class="detail-bottom-input">
+			<view class="detail-bottom-input" @click="openComents">
 				<text>谈谈你的看法</text>
 				<uni-icons type="compose" size="16" color="#f07373"></uni-icons>
 			</view>
@@ -38,18 +40,67 @@
 				</view>
 			</view>
 		</view>
+		<uni-popup ref="popup" type="bottom" :maskClick="false">
+			<!-- ref类似于document.getelementById-->
+			<view class="popup-wrap">
+				<view class="popup-header">
+					<text class="popup-header_item" @click="closeComent">取消</text>
+					<text class="popup-header_item" @click="submit">发布</text>
+				</view>
+				<view class="popup-content">
+					<textarea class="popup-textarea" maxlength="200" fixed="true" v-model="comentsValue" placeholder="请输入评论内容" />
+					<view class="popup-count">
+						{{comentsValue.length}}/200
+					</view>
+					</view>
+			</view>
+		</uni-popup>
 	</view>
 </template>
 
 <script>
+	import uParse from '../../components/feng-parse/parse.vue'
 	export default {
+		components: {
+			uParse
+		},
+		onLoad(query) { //内容的预加载
+			this.formData = JSON.parse(query.params) //字符串转对象
+			console.log('xxxxxx', this.formData)
+			this.getDetail()
+		},
 		data() {
 			return {
+				formData: {
 
+				},
+				noData: '<p style="text-align:center;color:#666">详情加载中...</p>',
+				//输入框的值
+				comentsValue:''
 			}
 		},
 		methods: {
-
+			openComents(){//打开评论发布窗口
+				this.$refs.popup.open()
+			},
+			closeComent(){
+				this.$refs.popup.close()
+			},
+			submit(){
+				console.log('发布');
+				this.$refs.popup.close()
+			},
+			getDetail() {
+				this.$api.get_detail({
+					article_id: this.formData._id
+				}).then(res => {
+					const {
+						data
+					} = res
+					this.formData = data
+					console.log(res)
+				})
+			}
 		}
 	}
 </script>
@@ -110,9 +161,11 @@
 	}
 
 	.detail_content {
-		height: 1000px;
-		border: 1px red solid;
+		min-height: 500px;
 
+		.detail-html {
+			padding: 15px;
+		}
 	}
 
 	.detail-bottom {
@@ -126,31 +179,65 @@
 		border-top: 1px red solid;
 		background-color: #fff;
 		box-sizing: border-box;
-		.detail-bottom-input{
+
+		.detail-bottom-input {
 			display: flex;
 			align-items: center;
 			justify-content: space-between;
-			margin-left: 10px;//里面的子元素的边距 也就是item之间的
+			margin-left: 10px; //里面的子元素的边距 也就是item之间的
 			padding: 0 10px;
 			width: 100%;
 			height: 30px;
 			border: 1px #ddd solid;
 			border-radius: 5px;
-			text{
+
+			text {
 				color: #999;
 				font-size: 14px;
 			}
 		}
-		.detail-bottom-icons{
+
+		.detail-bottom-icons {
 			display: flex;
 			flex-shrink: 0;
 			padding: 0 10px;
-			.detail-bottom-icons_box{
+
+			.detail-bottom-icons_box {
 				position: relative;
 				display: flex;
 				justify-content: center;
 				width: 44px;
 				align-items: center;
+			}
+		}
+	}
+	.popup-wrap{
+		background-color: #fff;
+		.popup-header{
+			display: flex;
+			justify-content: space-between;
+			font-size: 14px;
+			color: #666;
+			border-bottom: 1px #f5f5f5 solid;
+			.popup-header_item{
+				height: 50px;
+				line-height: 50px;
+				padding: 0 15px;
+			}
+		}
+		.popup-content{
+			width: 100%;
+			padding: 15px 15px;
+			box-sizing: border-box;
+			.popup-textarea{
+				width: 100%;
+				height: 200px;
+			}
+			.popup-count{
+				font-size: 12px;
+				display: flex;
+				justify-content: flex-end;
+				color: #999;
 			}
 		}
 	}

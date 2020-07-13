@@ -14,4 +14,5 @@
 
 <style>
 	/*每个页面公共css */
+	@import 'components/feng-parse/parse.css';
 </style>

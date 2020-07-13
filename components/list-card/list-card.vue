@@ -89,9 +89,22 @@
 		},
 		methods:{
 			open(){
-				this.$emit('click',this.item)
+				const item = this.item
+				this.$emit('click',item)//？这个是传给home-search的  因为搜索的时候也要有卡片
+				console.log('打开详情页面',item)
+				const params={
+					id:item._id,
+					title:item.title,
+					author:item.author,
+					create_time:item.create_time,
+					thumbs_up_count:item.thumbs_up_count,
+					browse_count:item.browse_count
+					
+				}
+				console.log(params)
+				//传参注意长度
 				uni.navigateTo({//点击列表项的时候会跳转到详情页面
-					url:'/pages/home-detail/home-detail'
+					url:'/pages/home-detail/home-detail?params='+JSON.stringify(params)//只能是字符串  对象转字符串
 				})
 			}
 		}
