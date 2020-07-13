@@ -20,7 +20,15 @@
 		</view>
 		<view class="detail_content">
 			<view class="detail-html">
-				<u-parse :content="formData.content" :noData="noData"></u-parse>
+				内容<!-- <u-parse :content="formData.content" :noData="noData"></u-parse> -->
+			</view>
+			<view class="detail-comments">
+				<view class="comment-title">
+					最新评论
+				</view>
+				<view class="comment-content" v-for="item in commentsList" :key="item.comment_id"	>
+					<comments-box :comment="item"></comments-box>
+				</view>
 			</view>
 		</view>
 		<view class="detail-bottom">
@@ -68,6 +76,7 @@
 			this.formData = JSON.parse(query.params) //字符串转对象
 			console.log('xxxxxx', this.formData)
 			this.getDetail()
+			this.getComments()
 		},
 		data() {
 			return {
@@ -76,7 +85,8 @@
 				},
 				noData: '<p style="text-align:center;color:#666">详情加载中...</p>',
 				//输入框的值
-				comentsValue:''
+				comentsValue:'',
+				commentsList:[]
 			}
 		},
 		methods: {
@@ -88,7 +98,29 @@
 			},
 			submit(){
 				console.log('发布');
-				this.$refs.popup.close()
+				if(!this.comentsValue){
+					uni.showToast({
+						title:'请输入评论内容',
+						icon:'none'
+					})
+					return
+				}
+				this.setUpdateComment(this.comentsValue)
+			},
+			setUpdateComment(content){//发布评论
+			uni.showLoading()
+				this.$api.update_coments({
+					article_id:this.formData._id,
+					content
+				}).then(res=>{
+					console.log(res)
+					uni.hideLoading()
+					uni.showToast({
+						title:'评论发布成功',
+						icon:'none'
+					})
+					this.closeComent()
+				})
 			},
 			getDetail() {
 				this.$api.get_detail({
@@ -99,6 +131,16 @@
 					} = res
 					this.formData = data
 					console.log(res)
+				})
+			},
+			//请求评论内容
+			getComments(){
+				this.$api.get_comments({
+					article_id: this.formData._id
+				}).then(res=>{
+					console.log(res)
+					const{data}=res
+					this.commentsList=data
 				})
 			}
 		}
@@ -165,6 +207,19 @@
 
 		.detail-html {
 			padding: 15px;
+		}
+		.detail-comments{
+			margin-top: 30px;
+			.comment-title{
+				padding: 10px 15px;
+				font-size: 14px;
+				color: #666;
+				border-bottom: 1px #f5f5ff solid;
+			}
+			.comment-content{
+				padding: 0 15px;
+				border-bottom:1px #eee solid ;
+			}
 		}
 	}
 
