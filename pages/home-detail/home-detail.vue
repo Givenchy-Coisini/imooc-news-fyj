@@ -99,8 +99,13 @@
 			},
 			reply(e){
 				this.replyFormData={
-					"comment_id":e.comment_id
+					"comment_id":e.comments.comment_id,
+					"is_reply":e.is_reply
 				}
+				if(e.comments.reply_id){
+					this.replyFormData.reply_id=e.comments.reply_id
+				}
+				console.log(this.replyFormData)
 				this.openComents()
 			},
 			submit(){
@@ -131,6 +136,8 @@
 					})
 					this.getComments()
 					this.closeComent()
+					this.replyFormData={}
+					this.comentsValue=''
 				})
 			},
 			getDetail() {

@@ -5,8 +5,13 @@
 				<image :src="comments.author.avatar" mode="aspectFill"></image>
 			</view>
 			<view class="conmment-header_info">
-				<view class="title">
+				<view v-if="!comments.is_reply" class="title">
 					{{comments.author.author_name}}
+				</view>
+				<view v-else class="title">
+					{{comments.author.author_name}}
+					<text class="reply-text">回复</text>
+					{{comments.to}}
 				</view>
 				<view class="">
 					{{comments.create_time}}
@@ -18,12 +23,12 @@
 				{{comments.comment_content}}
 			</view>
 			<view class="comment-info">
-				<view class="comments-button" @click="commentsReply(comments)">
+				<view class="comments-button" @click="commentsReply({comments:comments,is_reply:reply})">
 					回复
 				</view>
 			</view>
 			<view class="comment-reply" v-for="item in comments.replys" :key="item.comment_id">
-				<comments-box :comments="item"></comments-box>
+				<comments-box :reply="true" :comments="item" @reply="commentsReply"></comments-box>
 			</view>
 		</view>
 
@@ -44,7 +49,12 @@
 				default () {
 					return {}
 				}
+			},
+			reply:{
+				type:Boolean,
+				default:false
 			}
+
 		},
 		data() {
 			return {
@@ -53,6 +63,11 @@
 		},
 		methods: {
 			commentsReply(comment) {
+				if(comment.is_reply){
+					comment.comments.reply_id = comment.comments.comment_id
+					comment.comments.comment_id=this.comments.comment_id
+				}
+				// console.log(comment)
 				this.$emit('reply', comment)
 			}
 		}
@@ -91,6 +106,11 @@
 					margin-bottom: 10px;
 					font-size: 14px;
 					color: #333;
+					.reply-text{
+						margin: 0 10px;
+						font-weight: bold;
+						color: #000;
+					}
 				}
 			}
 		}
