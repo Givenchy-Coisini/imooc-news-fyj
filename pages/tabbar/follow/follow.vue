@@ -13,18 +13,20 @@
 			</view>
 		</view>
 		<view class="follow-list">
-			<swiper class="follow-list_swiper">
+			<swiper class="follow-list_swiper" :current="activeIndex" @change="change">
 				<swiper-item>
 					<list-scroll>
 						<uni-load-more v-if="lists.length===0&&!articleShow" iconType="snow" status="loading"></uni-load-more>
-						<list-card v-for="item in lists" :key="item._id"  types="follow" :item="item"></list-card>
+						<list-card v-for="item in lists" :key="item._id" types="follow" :item="item"></list-card>
 						<view class="no-data" v-if="articleShow">
 							没有数据
 						</view>
 					</list-scroll>
 				</swiper-item>
 				<swiper-item>
-					<view class="swiper-item">作者</view>
+					<list-scroll>
+						<list-author v-for="item in authorLists" :key="item.id" :item="item"></list-author>
+					</list-scroll>
 				</swiper-item>
 			</swiper>
 		</view>
@@ -36,29 +38,49 @@
 		data() {
 			return {
 				activeIndex: 0,
-				lists:[],
-				articleShow:false
+				lists: [],
+				articleShow: false,
+				authorLists: []
 			}
 		},
 		onLoad() {
 			//自定义事件只能在打开的页面触发
-			uni.$on('update_article',()=>{
+			uni.$on('update_article', () => {
 				console.log('guanzhu')
-					this.getFollow()
+				this.getFollow()
 			})
-		
+			uni.$on('update_author',()=>{
+				this.getAuthor()
+			})
+			this.getFollow()
+			this.getAuthor()
 		},
 		methods: {
+			change(e) {
+				const current = e.detail.current
+				this.activeIndex = current
+			},
 			tab(index) {
 				console.log(index)
-				this.activeIndex=index
+				this.activeIndex = index
 			},
-			getFollow(){
-				this.$api.get_follow().then(res=>{
+			getFollow() {
+				this.$api.get_follow().then(res => {
 					console.log(res)
-					const {data}=res
-					this.lists=data
-					this.articleShow=this.lists.length===0?true:false
+					const {
+						data
+					} = res
+					this.lists = data
+					this.articleShow = this.lists.length === 0 ? true : false
+				})
+			},
+			getAuthor() {
+				this.$api.get_author().then(res => {
+					console.log(res)
+					const {
+						data
+					} = res
+					this.authorLists = data
 				})
 			}
 		}
@@ -108,17 +130,21 @@
 				}
 			}
 		}
-		.follow-list{
-			flex:1;
-			.follow-list_swiper{
+
+		.follow-list {
+			flex: 1;
+
+			.follow-list_swiper {
 				height: 100%;
-				.swiper-item{
+
+				.swiper-item {
 					height: 100%;
 				}
 			}
 		}
 	}
-	.no-data{
+
+	.no-data {
 		font-size: 14px;
 		padding: 50px;
 		color: #999;
