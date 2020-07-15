@@ -200,7 +200,7 @@
 				}).then(res=>{
 					uni.hideLoading()
 					this.formData.is_like=!this.formData.is_like
-					uni.$emit('update_article')
+					uni.$emit('update_article','follow')
 					uni.showToast({
 						title:this.formData.is_like?'收藏成功':'取消收藏',
 						icon:'none'

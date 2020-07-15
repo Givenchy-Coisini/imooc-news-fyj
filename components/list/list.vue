@@ -45,10 +45,13 @@
 		//onLoad只能在页面中写  组件中用的是created 组件中是不能用onLoad的
 		created() {
 			//tab还没有赋值 因为另外一个也要请求云函数
-			uni.$on('update_article', () => {
-				this.getList(this.activeIndex)
-				this.listCatchData = {}
-				this.load = {}
+			uni.$on('update_article', (e) => {
+				console.log(e)
+				if(e==='follow'){
+					this.getList(this.activeIndex)
+					this.listCatchData = {}
+					this.load = {}
+				}
 			})
 		},
 		methods: {
