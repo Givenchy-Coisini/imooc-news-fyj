@@ -29,31 +29,34 @@
 		data() {
 			return {
 				list: [],
-				listCatchData: {} ,//缓存，
-				load:{
-				},
+				listCatchData: {}, //缓存，
+				load: {},
 				pageSize: 9
 			};
 		},
 		watch: {
 			tab(newVal) { //监听tab
 				if (newVal.length === 0) return
-				this.listCatchData={}
-				this.load={}
+				this.listCatchData = {}
+				this.load = {}
 				this.getList(this.activeIndex)
 			}
 		},
 		//onLoad只能在页面中写  组件中用的是created 组件中是不能用onLoad的
 		created() {
 			//tab还没有赋值 因为另外一个也要请求云函数
-
+			uni.$on('update_article', () => {
+				this.getList(this.activeIndex)
+				this.listCatchData = {}
+				this.load = {}
+			})
 		},
 		methods: {
 			loadmore() {
-				if(this.load[this.activeIndex].loading==='noMore')return
-					this.load[this.activeIndex].page++
-					// console.log('触发上拉')
-					this.getList(this.activeIndex)
+				if (this.load[this.activeIndex].loading === 'noMore') return
+				this.load[this.activeIndex].page++
+				// console.log('触发上拉')
+				this.getList(this.activeIndex)
 			},
 			change(e) {
 				const {
@@ -66,13 +69,13 @@
 			},
 			//是个空数组  外面传进来的  也是请求云函数回来的，list组件渲染的时候，tab可能还没有拿到
 			getList(current) {
-				if(!this.load[current]){
-					this.load[current]={
-						page:1,
-						loading:'loading'
+				if (!this.load[current]) {
+					this.load[current] = {
+						page: 1,
+						loading: 'loading'
 					}
 				}
-				console.log('当前的页数',this.load[current].page)
+				console.log('当前的页数', this.load[current].page)
 				this.$api.get_list({
 					name: this.tab[current].name,
 					page: this.load[current].page,
@@ -82,16 +85,16 @@
 					const {
 						data
 					} = res
-					if(data.length===0){
-						let oldLoad={}
-						oldLoad.loading='noMore'
-						oldLoad.page=this.load[current].page
-						this.$set(this.load,current,oldLoad)
+					if (data.length === 0) {
+						let oldLoad = {}
+						oldLoad.loading = 'noMore'
+						oldLoad.page = this.load[current].page
+						this.$set(this.load, current, oldLoad)
 						//强制渲染页面
 						this.$forceUpdate()
-						return 
+						return
 					}
-					let oldList=this.listCatchData[current]||[]
+					let oldList = this.listCatchData[current] || []
 					oldList.push(...data)
 					//data是云函数请求回来的值，赋给了this.list,这样的话我们就还能看到旧的值
 					// this.list=data

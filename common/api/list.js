@@ -50,3 +50,15 @@ import $http from './http.js'
  		data
  	})
  }
+ export const updata_author = (data) => {
+ 	return $http({
+ 		url: 'updata_author',
+ 		data
+ 	})
+ }
+ export const update_thumbup = (data) => {
+ 	return $http({
+ 		url: 'update_thumbup',
+ 		data
+ 	})
+ }
