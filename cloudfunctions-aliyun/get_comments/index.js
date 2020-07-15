@@ -4,7 +4,9 @@ const $ =db.command.aggregate
 exports.main = async (event, context) => {
  const {
 	 user_id,
-	 article_id
+	 article_id,
+	 pageSize=5,
+	 page=1
  }=event
  
  
@@ -21,6 +23,8 @@ exports.main = async (event, context) => {
  .replaceRoot({
  	newRoot:'$comments'//将comments作为根节点
  })
+ .skip(pageSize*(page-1))
+ .limit(pageSize)
  .end()
   //返回数据给客户端
   return {

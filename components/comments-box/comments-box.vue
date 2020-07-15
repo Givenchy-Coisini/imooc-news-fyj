@@ -14,7 +14,7 @@
 					{{comments.to}}
 				</view>
 				<view class="">
-					{{comments.create_time}}
+					{{comments.create_time |formatTime}}
 				</view>
 			</view>
 		</view>
@@ -38,6 +38,7 @@
 <script>
 	//递归组件的用法
 	import commentsBox from '@/components/comments-box/comments-box.vue'
+	import{parseTime} from '@/untils/index.js'
 	export default {
 		name: "comments-box",
 		components: {
@@ -55,6 +56,11 @@
 				default:false
 			}
 
+		},
+		filters:{
+			formatTime(time){
+				return parseTime(time)
+			}
 		},
 		data() {
 			return {

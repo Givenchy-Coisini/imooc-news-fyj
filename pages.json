@@ -34,6 +34,10 @@
             "path" : "pages/home-detail/home-detail",
             "style" : {}
         }
+        ,{
+            "path" : "pages/detail-comments/detail-comments",
+            "style" : {}
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

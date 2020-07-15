@@ -42,7 +42,7 @@
 				<uni-icons type="compose" size="16" color="#f07373"></uni-icons>
 			</view>
 			<view class="detail-bottom-icons">
-				<view class="detail-bottom-icons_box">
+				<view class="detail-bottom-icons_box" @click="open">
 					<uni-icons type="chat" size="22" color="#f07373"></uni-icons>
 				</view>
 				<view class="detail-bottom-icons_box" @click="likeTap(formData._id)">
@@ -73,6 +73,7 @@
 
 <script>
 	import uParse from '../../components/feng-parse/parse.vue'
+	
 	export default {
 		components: {
 			uParse
@@ -96,6 +97,11 @@
 			}
 		},
 		methods: {
+			open(){
+				uni.navigateTo({
+					url:'../detail-comments/detail-comments?id='+this.formData._id
+				})		
+					},
 			openComents(){//打开评论发布窗口
 				this.$refs.popup.open()
 			},
