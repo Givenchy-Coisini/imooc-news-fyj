@@ -75,4 +75,23 @@ import $http from './http.js'
  		data
  	})
  }
+ export const get_user = (data) => {
+ 	return $http({
+ 		url: 'get_user',
+ 		data
+ 	})
+ }
+ export const get_myarticle = (data) => {
+ 	return $http({
+ 		url: 'get_myarticle',
+ 		data
+ 	})
+ }
+ export const update_feedback = (data) => {
+ 	return $http({
+ 		url: 'update_feedback',
+ 		data
+ 	})
+ }
+  
  

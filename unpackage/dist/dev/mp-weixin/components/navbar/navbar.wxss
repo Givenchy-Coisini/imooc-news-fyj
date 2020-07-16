@@ -77,7 +77,18 @@
   margin-right: 10px;
 }
 .navbar .navbar-fixed .navbar_context .navbar-search .navbar-search_text {
-  font-size: 12px;
+  width: 100%;
+  font-size: 14px;
   color: #999;
+}
+.navbar .navbar-fixed .navbar_context.search {
+  padding-left: 0;
+}
+.navbar .navbar-fixed .navbar_context.search .navbar_content_search_icons {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+.navbar .navbar-fixed .navbar_context.search .navbar-search {
+  border-radius: 5px;
 }
 

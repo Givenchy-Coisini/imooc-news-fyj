@@ -1,0 +1,1 @@
+page{height:100%;display:-webkit-box;display:-webkit-flex;display:flex}.home{display:-webkit-box;display:-webkit-flex;display:flex;-webkit-box-orient:vertical;-webkit-box-direction:normal;-webkit-flex-direction:column;flex-direction:column;-webkit-box-flex:1;-webkit-flex:1;flex:1;overflow:hidden}.home .home-list{-webkit-box-flex:1;-webkit-flex:1;flex:1;box-sizing:border-box}

@@ -19,13 +19,16 @@
 						<uni-load-more v-if="lists.length===0&&!articleShow" iconType="snow" status="loading"></uni-load-more>
 						<list-card v-for="item in lists" :key="item._id" types="follow" :item="item"></list-card>
 						<view class="no-data" v-if="articleShow">
-							没有数据
+							没有收藏文章
 						</view>
 					</list-scroll>
 				</swiper-item>
 				<swiper-item>
 					<list-scroll>
 						<list-author v-for="item in authorLists" :key="item.id" :item="item"></list-author>
+					<view class="no-data" v-if="followShow">
+						没有关注作者
+					</view>
 					</list-scroll>
 				</swiper-item>
 			</swiper>
@@ -40,7 +43,8 @@
 				activeIndex: 0,
 				lists: [],
 				articleShow: false,
-				authorLists: []
+				authorLists: [],
+				followShow:false
 			}
 		},
 		onLoad() {
@@ -81,6 +85,7 @@
 						data
 					} = res
 					this.authorLists = data
+					this.followShow=this.authorLists.length===0?true:false
 				})
 			}
 		}
@@ -94,7 +99,7 @@
 	}
 
 	.follow {
-		height: 100%;
+		// height: 100%;
 		display: flex;
 		flex-direction: column;
 		flex: 1;

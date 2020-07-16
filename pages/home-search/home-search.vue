@@ -13,7 +13,7 @@
 					</view>
 				</view>
 				<view v-else class="no-data">
-					没有搜索历史
+					没有搜索历史 
 				</view>
 			</view>
 			<list-scroll v-else class="list-scroll">

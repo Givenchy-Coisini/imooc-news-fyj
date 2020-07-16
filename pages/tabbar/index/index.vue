@@ -12,6 +12,7 @@
 </template>
 
 <script>
+	import {mapState} from 'vuex'
 	// easyCom   components/组件名/组件名.vue 局部引入
 	// import navbar from '@/components/navbar/navbar.vue'
 	export default {
@@ -25,6 +26,14 @@
 				activeIndex: 0
 			}
 		},
+		computed:{
+			...mapState(['userinfo'])
+		},
+		watch:{
+			userinfo(newVal){
+				this.getLabel()
+			}
+		},
 		onLoad() {
 			uni.$on('labelChange', (res) => {
 				this.tabList=[]
@@ -32,7 +41,7 @@
 				this.activeIndex=0
 				this.getLabel()
 			})
-			this.getLabel()
+			
 		},
 		methods: {
 			change(current) {

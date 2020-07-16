@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "评论列表",
+  "usingComponents": {
+    "comments-box": "/components/comments-box/comments-box",
+    "uni-load-more": "/components/uni-load-more/uni-load-more"
+  }
+}

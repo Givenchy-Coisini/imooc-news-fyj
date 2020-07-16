@@ -8,9 +8,13 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
 	//数据源
 	state: { //vuex并不是持久化的保存，每次刷新页面会从这个空数组开始
+		userinfo: uni.getStorageSync('USER_INFO')||{},
 		historyLists: uni.getStorageSync("_history") || []
 	},
 	mutations: {
+		SET_USER_INFO(state, userinfo) {
+			state.userinfo = userinfo
+		},
 		SET_HISTORY_LIST(state, history) { //第一参数是state  可以直接获取到我们的数据源  第二个参数是我们要传进来的history
 			state.historyLists = history //数据源的historyList = 我们传进来的history
 		},
@@ -19,6 +23,12 @@ const store = new Vuex.Store({
 		}
 	},
 	actions: { //异步的  修改我们mutations中的方法  页面调用的是  actions中的方法
+		set_userinfo({
+			commit
+		}, userinfo) {
+			uni.setStorageSync('USER_INFO',userinfo)
+			commit('SET_USER_INFO', userinfo)
+		},
 		set_history({
 			commit,
 			state

@@ -2,14 +2,20 @@
   "pages": [
     "pages/tabbar/index/index",
     "pages/tabbar/follow/follow",
-    "pages/tabbar/my/my"
+    "pages/tabbar/my/my",
+    "pages/home-search/home-search",
+    "pages/home-label/home-label",
+    "pages/home-detail/home-detail",
+    "pages/detail-comments/detail-comments",
+    "pages/my-article/my-article",
+    "pages/feedback/feedback"
   ],
   "subPackages": [],
   "window": {
     "navigationBarTextStyle": "black",
     "navigationBarTitleText": "uni-app",
     "navigationBarBackgroundColor": "#F8F8F8",
-    "backgroundColor": "#F8F8F8"
+    "backgroundColor": "#F07373"
   },
   "tabBar": {
     "color": "#666",
@@ -36,6 +42,5 @@
       }
     ]
   },
-  "usingComponents": {},
-  "sitemapLocation": "sitemap33.json"
+  "usingComponents": {}
 }
